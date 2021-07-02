@@ -44,6 +44,12 @@ namespace SkalProj_Datastrukturer_Minne
         /// <param name="args"></param>
         static void Main()
         {
+            Console.WriteLine(IterFib(1));
+            Console.WriteLine(IterFib(2));
+            Console.WriteLine(IterFib(3));
+            Console.WriteLine(IterFib(4));
+            Console.WriteLine(IterFib(5));
+            Console.WriteLine(IterFib(6));
             while (true)
             {
                 Console.WriteLine("Please navigate through the menu by inputting the number \n(1, 2, 3 ,4, 0) of your choice"
@@ -450,10 +456,9 @@ namespace SkalProj_Datastrukturer_Minne
         {
             if (n == 0) return 0;
             if (n == 1) return 1;
-            if (n == 2) return 1;
-            int oldFib = 1;
-            int newFib = 2;
-            for (int i = 0; i < n; i++)
+            int oldFib = 0;
+            int newFib = 1;
+            for (int i = 1; i < n; i++)
             {
                 newFib += oldFib;
                 oldFib = newFib - oldFib;
