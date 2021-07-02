@@ -44,7 +44,6 @@ namespace SkalProj_Datastrukturer_Minne
         /// <param name="args"></param>
         static void Main()
         {
-
             while (true)
             {
                 Console.WriteLine("Please navigate through the menu by inputting the number \n(1, 2, 3 ,4, 0) of your choice"
@@ -98,6 +97,7 @@ namespace SkalProj_Datastrukturer_Minne
                 }
             }
         }
+
 
         /// <summary>
         /// Examines the datastructure List
@@ -429,5 +429,43 @@ namespace SkalProj_Datastrukturer_Minne
             if (stack.Count > 0) wellFormulated = false;
             Console.WriteLine("Is the string well formulated: " + wellFormulated);
         }
+        private static int FibFunc(int n)
+        {
+            if (n < 0) return 0;
+            if (n == 0) return 0;
+            if (n == 1) return 1;
+            return FibFunc(n - 1) + FibFunc(n - 2);
+        }
+        private static int IterativeEven(int n)
+        {
+            if (n == 0) return 0;
+            int counter = 0;
+            for (int i = 0; i < n; i++)
+            {
+                counter += 2;
+            }
+            return counter;
+        }
+        private static int IterFib(int n)
+        {
+            if (n == 0) return 0;
+            if (n == 1) return 1;
+            if (n == 2) return 1;
+            int oldFib = 1;
+            int newFib = 2;
+            for (int i = 0; i < n; i++)
+            {
+                newFib += oldFib;
+                oldFib = newFib - oldFib;
+            }
+            return newFib;
+        }
+        /*
+        Utgå ifrån era nyvunna kunskaper om iteration, rekursion och minneshantering.Vilken av
+        ovanstående funktioner är mest minnesvänlig och varför?
+
+        Med iteration växer inte minnesallokeringen, endast ett antal tillståndsvariabler behövs som kan förändras för varje iteration,
+        med rekursion ökar minnesallokeringen för varje iteration (konstant ordo jämfört med ordo av högre grad).
+        */
     }
 }
