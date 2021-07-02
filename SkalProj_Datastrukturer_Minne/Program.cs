@@ -52,7 +52,8 @@ namespace SkalProj_Datastrukturer_Minne
                     + "\n2. Examine a Queue"
                     + "\n3. Examine a Stack"
                     + "\n4. Reverse Text"
-                    + "\n5. CheckParanthesis"
+                    + "\n5. Check () Paranthesis (Test)"
+                    + "\n6. CheckParanthesis"
                     + "\n0. Exit the application");
                 char input = ' '; //Creates the character input to be used with the switch-case below.
                 try
@@ -79,6 +80,9 @@ namespace SkalProj_Datastrukturer_Minne
                         ReverseText();
                         break;
                     case '5':
+                        CheckParanthesisOneType();
+                        break;
+                    case '6':
                         CheckParanthesis();
                         break;
                     /*
@@ -361,7 +365,7 @@ namespace SkalProj_Datastrukturer_Minne
             } while (input != '0');
         }
 
-        static void CheckParanthesis()
+        static void CheckParanthesisOneType()
         {
             /*
              * Use this method to check if the paranthesis in a string is Correct or incorrect.
@@ -369,24 +373,61 @@ namespace SkalProj_Datastrukturer_Minne
              * Example of incorrect: (()]), [), {[()}],  List<int> list = new List<int>() { 1, 2, 3, 4 );
              */
 
+            // För en typ av parantes
+            Console.WriteLine("Enter your string: ");
+            var str = Console.ReadLine();
+            var currentStack = new Stack<char>(str);
+            int openingParaInExcess = 0;
+            bool wellFormed = true;
+
+            while (currentStack.Count() > 0 && wellFormed)
+            {
+                Console.WriteLine("Stack count:" + currentStack.Count());
+                Console.WriteLine("Paranthesis unevenness: " + openingParaInExcess);
+                var currentChar = currentStack.Pop();
+                if (currentChar == ')')
+                    openingParaInExcess++;
+                else if (currentChar == '(' && openingParaInExcess == 0) // A string can not be well formed with a closing paranthesis without a prior opening one
+                    wellFormed = false;
+                else if (currentChar == '(' && openingParaInExcess > 0)
+                    openingParaInExcess--;
+            }
+            Console.WriteLine("Stack count:" + currentStack.Count());
+            Console.WriteLine("Pranthesis unevenness: " + openingParaInExcess);
+            if (openingParaInExcess != 0) wellFormed = false;
+            Console.WriteLine(wellFormed);
+
+
+
         }
-        private static char ValidatedInput()
+        static void CheckParanthesis()
         {
-            char input = ' ';
-            try
+            // Using a stack becuase it's more effective than a queue
+            var stack = new Stack<char>();
+            var dictionary = new Dictionary<char, char>()
             {
-                input = Console.ReadLine()[0]; //Tries to set input to the first char in an input line
-            }
-            catch (IndexOutOfRangeException) //If the input line is empty, we ask the users for some input.
-            {
-                Console.Clear();
-                Console.WriteLine("Please enter some input!");
-            }
+                [')'] = '(',
+                [']'] = '[',
+                ['}'] = '{'
 
-            return input;
+            };
+            bool wellFormulated = true;
+            Console.WriteLine("Enter your string: ");
+            var str = Console.ReadLine();
+            foreach (char character in str)
+            {
+                if (dictionary.ContainsKey(character)) // We find a key (closener): ), ], } in the string 
+                {
+                    if (stack.Peek() == dictionary[character]) // If the top of the stack is the corresponding opening paranthesis (value) to our closener (key), cancel them out
+                        stack.Pop();
+                    else // If the stack is empty while we've found a key (closener) it is not well formulated, if the stack has another opener or closener than the one matching our key, it is not well formulated either
+                        wellFormulated = false;
+                }
+                else if (dictionary.ContainsValue(character)) // If we find an opener we push it to the stack
+                    stack.Push(character);
+            }
+            if (stack.Count > 0) wellFormulated = false;
+            Console.WriteLine("Is the string well formulated: " + wellFormulated);
         }
-
-        
-
     }
 }
